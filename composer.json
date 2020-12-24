@@ -7,6 +7,10 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "1.11.99.1",
+        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "doctrine/orm": "^2.8",
         "sensio/framework-extra-bundle": "^5.6",
         "symfony/console": "5.*",
         "symfony/dotenv": "5.*",
@@ -14,6 +18,7 @@
         "symfony/framework-bundle": "5.*",
         "symfony/maker-bundle": "^1.26",
         "symfony/monolog-bundle": "^3.6",
+        "symfony/proxy-manager-bridge": "5.*",
         "symfony/yaml": "5.*"
     },
     "require-dev": {

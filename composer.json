@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name": "bastienrulat/guestbook",
+    "description": "The composer's config file for my Guestbook project",
     "license": "proprietary",
     "require": {
         "php": "^7.2.5",

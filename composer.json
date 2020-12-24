@@ -20,12 +20,14 @@
         "symfony/maker-bundle": "^1.26",
         "symfony/monolog-bundle": "^3.6",
         "symfony/proxy-manager-bridge": "5.*",
-        "symfony/yaml": "5.*"
+        "symfony/twig-bundle": "^5.0",
+        "symfony/yaml": "5.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "symfony/debug-bundle": "^5.0",
         "symfony/stopwatch": "^5.0",
-        "symfony/twig-bundle": "^5.0",
         "symfony/var-dumper": "5.*",
         "symfony/web-profiler-bundle": "^5.0"
     },

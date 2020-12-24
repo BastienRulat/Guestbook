@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{conference}}{% endblock %}
+
+{% block body %}
+    <h1>{{conference}} feedbacks !</h1>
+    {% for comment in comments %}
+        <h2>{{ comment.author }} / {{ comment }}</h2>
+        <p>{{ comment.text }}</p>
+    {% endfor %}
+    <a href="/">Go home</a>
+{% endblock %}

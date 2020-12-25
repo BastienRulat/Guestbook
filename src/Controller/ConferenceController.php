@@ -14,13 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ConferenceController extends AbstractController
 {
+    private $twig;
+
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig;
+    }
+
     /**
      * @Route("/", name="homepage")
      */
-    public function index(Environment $twig, ConferenceRepository $conferenceRepository): Response
+    public function index(ConferenceRepository $conferenceRepository) : Response
     {
         // TODO Manage render exceptions
-        return new Response($twig->render('conference/index.html.twig', [
+        return new Response($this->twig->render('conference/index.html.twig', [
             'conferences' => $conferenceRepository->findAll()
         ]));
     }
@@ -28,14 +35,14 @@ class ConferenceController extends AbstractController
     /**
      * @Route("/conference/{id}/{offset?}", name="conference")
      */
-    public function conference(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository)
+    public function conference(Request $request, Conference $conference, CommentRepository $commentRepository) : Response
     {
         // TODO Fix ERROR if id is not found
         $offset = max (0, $request->attributes->getInt('offset', 0));
 
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
         // dd($paginator);
-        return new Response($twig->render('conference/conference.html.twig', [
+        return new Response($this->twig->render('conference/conference.html.twig', [
 
             'conference' => $conference,
             'comments' => $paginator,

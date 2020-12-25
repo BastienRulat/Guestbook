@@ -1,4 +1,5 @@
 /*.code-workspace
+/public/uploads
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

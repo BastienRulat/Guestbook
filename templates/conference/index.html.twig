@@ -3,10 +3,12 @@
 {% block title %}Conference Guestbook{% endblock %}
 
 {% block body %}
-    <h1>Give your feedback !</h1>
-    <ul>
-    {% for conference in conferences %}
-        <li><a href="/show/{{ conference.id }}">{{ conference }}</a></li>
-    {% endfor %}
-    </ul>
+    <section>
+        <h1>Les conférences !</h1>
+        {% for conference in conferences %}
+            <article>
+                <a href="/show/{{ conference.id }}">{{ conference }}</a>
+            </article>
+        {% endfor %}
+    </section>
 {% endblock %}

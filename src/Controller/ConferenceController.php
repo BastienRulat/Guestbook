@@ -17,10 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ConferenceController extends AbstractController
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="list-conference")
      */
     public function index(Environment $twig, ConferenceRepository $conferenceRepository): Response
     {
+        // TODO Manage render exceptions
         return new Response($twig->render('conference/index.html.twig', [
             'conferences' => $conferenceRepository->findAll()
         ]));
@@ -29,22 +30,11 @@ class ConferenceController extends AbstractController
     /**
      * @Route("/show/{id}", name="show-conference")
      */
-    public function show(Environment $twig, ConferenceRepository $conferenceRepository, CommentRepository $commentRepository, $id)
+    public function show(Environment $twig, Conference $conference, CommentRepository $commentRepository, $id)
     {
-        $comments = [];
-
-        $conference = $conferenceRepository->find($id);
-        
-        $comments_id = $conference->getComments();
-
-        foreach ($comments_id as $id) {
-            $comment = $commentRepository->find($id);
-            array_push($comments, $comment);
-        }
-        
         return new Response($twig->render('conference/show.html.twig', [
             'conference' => $conference,
-            'comments' => $comments
+            'comments' => $commentRepository->findBy(["conference"=>$conference])
         ]));
     }
 }

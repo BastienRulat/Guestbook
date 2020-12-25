@@ -9,7 +9,7 @@
         <p>There are actually {{ comments|length }} comments for this conference</p>
         {% for comment in comments %}
             {% if comment.photofilename %}
-                <img src="{{ asset('uploads/photos/' ~ comment.photofilename) }}" />
+                <img src="{{ asset('uploads/photos/' ~ comment.photofilename) }}" style="width:200px;"/>
             {% endif %}
 
             <h4>{{ comment.author }}</h4>

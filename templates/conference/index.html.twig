@@ -7,7 +7,7 @@
         <h1>Les conférences !</h1>
         {% for conference in conferences %}
             <article>
-                <a href="/show/{{ conference.id }}">{{ conference }}</a>
+                <a href="{{ path('conference', {id: conference.id }) }}">{{ conference }}</a>
             </article>
         {% endfor %}
     </section>

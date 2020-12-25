@@ -6,8 +6,6 @@ use App\Entity\Conference;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
-use PhpParser\Node\Expr\Array_ as ExprArray_;
-use PhpParser\Node\Expr\Cast\Array_;
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ConferenceController extends AbstractController
 {
     /**
-     * @Route("/", name="list-conference")
+     * @Route("/", name="homepage")
      */
     public function index(Environment $twig, ConferenceRepository $conferenceRepository): Response
     {
@@ -28,13 +26,21 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route("/show/{id}", name="show-conference")
+     * @Route("/conference/{id}/{offset?}", name="conference")
      */
-    public function show(Environment $twig, Conference $conference, CommentRepository $commentRepository, $id)
+    public function conference(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository)
     {
-        return new Response($twig->render('conference/show.html.twig', [
+        // TODO Fix ERROR if id is not found
+        $offset = max (0, $request->attributes->getInt('offset', 0));
+
+        $paginator = $commentRepository->getCommentPaginator($conference, $offset);
+        // dd($paginator);
+        return new Response($twig->render('conference/conference.html.twig', [
+
             'conference' => $conference,
-            'comments' => $commentRepository->findBy(["conference"=>$conference])
+            'comments' => $paginator,
+            'previous' => $offset - $commentRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + $commentRepository::PAGINATOR_PER_PAGE)
         ]));
     }
 }

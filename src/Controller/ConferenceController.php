@@ -8,6 +8,7 @@ use App\Entity\Conference;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use App\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,7 @@ class ConferenceController extends AbstractController
     /**
      * @Route("/conference/{slug}/{offset?}", name="conference")
      */
-    public function conference(Request $request, Conference $conference, CommentRepository $commentRepository, string $photoDir) : Response
+    public function conference(Request $request, Conference $conference, CommentRepository $commentRepository, string $photoDir, SpamChecker $spamChecker) : Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -60,6 +61,20 @@ class ConferenceController extends AbstractController
             }
 
             $this->entityManager->persist($comment);
+            
+            // BEGIN CHECK COMMENT IS SPAM WITH AKISMET API
+            $context = [
+                'user_ip' => $request->getClientIp(),
+                'user_agent' => $request->headers->get('user-agent'),
+                'referrer' => $request->headers->get('referer'),
+                'permalink' => $request->getUri(),
+            ];
+            dd($spamChecker->getSpamScore($comment, $context));
+            if (2 === $spamChecker->getSpamScore($comment, $context)) {
+                throw new \RuntimeException('Blatant spam, go away!');
+            }
+            // END CHECK COMMENT IS SPAM WITH AKISMET API
+
             $this->entityManager->flush();
 
             return $this->redirectToRoute('conference', ['slug' => $conference->getSlug()]);

@@ -21,6 +21,7 @@
         "symfony/mime": "5.*",
         "symfony/monolog-bundle": "^3.6",
         "symfony/proxy-manager-bridge": "5.*",
+        "symfony/security-bundle": "5.*",
         "symfony/string": "5.*",
         "symfony/twig-bundle": "^5.0",
         "symfony/yaml": "5.*",
